@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="10問でわかる営業タイプ診断。あなたの強みと、働くうえで重視していることを診断します。">
+  <title>営業タイプ診断｜営業キャリアナビ</title>
+  <!--
+    設定項目は下部JavaScriptのCONFIGに集約しています。
+    Meta CAPIのアクセストークンはHTMLに書かず、必ずサーバー側に保存してください。
+  -->
+  <style>
+    :root{--primary:#1769e0;--primary-dark:#0f53b7;--soft:#eaf3ff;--line:#06c755;--ink:#172033;--muted:#667085;--border:#e4e9f0;--bg:#f3f6fa}
+    *{box-sizing:border-box}
+    body{min-height:100vh;margin:0;padding:20px;color:var(--ink);background:radial-gradient(circle at 15% 0%,rgba(23,105,224,.1),transparent 35%),var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",Roboto,Arial,sans-serif}
+    .card{width:min(100%,500px);margin:20px auto;padding:28px 24px;background:#fff;border:1px solid var(--border);border-radius:18px;box-shadow:0 12px 36px rgba(30,55,90,.08)}
+    .hidden{display:none!important}.center{text-align:center}
+    .badge{display:inline-flex;padding:7px 15px;color:var(--primary);background:var(--soft);border-radius:999px;font-size:13px;font-weight:700}
+    h1{margin:15px 0 10px;font-size:clamp(23px,6vw,28px);line-height:1.35}.desc{margin:0 0 24px;color:var(--muted);font-size:14px;line-height:1.75}
+    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:22px}.feature{padding:10px 5px;background:#f8fafc;border-radius:10px;font-size:11px;font-weight:700}
+    .progress-status{display:flex;justify-content:space-between;margin-bottom:7px;color:var(--muted);font-size:13px;font-weight:700}
+    .progress-bg{height:8px;overflow:hidden;background:#e9edf3;border-radius:999px}.progress{height:100%;background:linear-gradient(90deg,var(--primary),#4f9cff);transition:width .25s}
+    .question{margin:24px 0 18px;font-size:18px;line-height:1.55}
+    .btn{display:block;width:100%;margin:10px 0;padding:15px 16px;color:#28364c;background:#fff;border:2px solid var(--border);border-radius:12px;font:inherit;font-size:15px;font-weight:600;line-height:1.45;text-align:left;cursor:pointer;transition:.16s}
+    .btn:hover,.btn:focus-visible{color:var(--primary);background:#f5f9ff;border-color:var(--primary);outline:none;transform:translateY(-1px)}
+    .btn-main{padding:17px;color:#fff;background:linear-gradient(135deg,var(--primary),#3488f6);border:0;box-shadow:0 7px 18px rgba(23,105,224,.25);font-size:17px;font-weight:800;text-align:center}
+    .btn-main:hover,.btn-main:focus-visible{color:#fff;background:linear-gradient(135deg,var(--primary-dark),var(--primary))}
+    .back{margin-top:12px;padding:7px 0;color:var(--muted);background:none;border:0;cursor:pointer}
+    .portrait{display:grid;width:128px;height:128px;margin:18px auto 14px;place-items:center;overflow:hidden;color:var(--primary);background:linear-gradient(145deg,#eff5ff,#dbe9ff);border:4px solid #fff;border-radius:50%;box-shadow:0 8px 24px rgba(23,105,224,.18);font-size:46px;font-weight:900}
+    .portrait img{width:100%;height:100%;object-fit:cover}.result-kicker{margin:0 0 5px;color:var(--muted);font-size:13px}.result-title{margin:0;font-size:clamp(24px,7vw,30px)}
+    .tendency{display:inline-flex;margin:11px 0 15px;padding:7px 13px;color:#7a4815;background:#fff4d8;border:1px solid #f7dfa3;border-radius:999px;font-size:13px;font-weight:800}
+    .teaser{margin:0;padding:17px;color:#344054;background:#f8fafc;border-radius:12px;font-size:14px;line-height:1.75;text-align:left}
+    .locked{margin-top:18px;padding:15px;background:#f2f7ff;border:1px solid #d8e8ff;border-radius:12px;text-align:left}.locked strong{color:#174d96;font-size:14px}.locked ul{margin:8px 0 0;padding-left:20px;color:#475467;font-size:13px;line-height:1.75}
+    .line-lead{margin:22px 0 4px;font-size:15px;font-weight:800}.note{margin:0;color:var(--muted);font-size:12px;line-height:1.6}
+    .btn-line{display:block;margin-top:16px;padding:17px;color:#fff;background:var(--line);border-radius:12px;box-shadow:0 7px 18px rgba(6,199,85,.25);font-size:16px;font-weight:800;line-height:1.45;text-decoration:none}
+    .privacy{margin:13px 0 0;color:#98a2b3;font-size:10px;line-height:1.6}
+    @media(max-width:520px){body{padding:10px}.card{margin:10px auto;padding:24px 18px;border-radius:15px}}
+    @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+  </style>
+</head>
+<body>
+  <main>
+    <section class="card center" id="startBox">
+      <span class="badge">所要時間：約60秒・全10問</span>
+      <h1>営業タイプ診断</h1>
+      <p class="desc">いつもの仕事の進め方や、働くうえで大切にしたいことから、あなたの営業タイプを歴史上の人物に例えて診断します。</p>
+      <div class="features"><div class="feature">登録不要で開始</div><div class="feature">直感で選択</div><div class="feature">結果は全16通り</div></div>
+      <button class="btn btn-main" id="startButton" type="button">無料で診断する</button>
+    </section>
+
+    <section class="card hidden" id="quizBox" aria-live="polite">
+      <div class="progress-status"><span id="progressText"></span><span id="progressCount"></span></div>
+      <div class="progress-bg" role="progressbar" aria-valuemin="1" aria-valuemax="10" id="progressShell"><div class="progress" id="progressBar"></div></div>
+      <h2 class="question" id="questionText"></h2>
+      <div id="options"></div>
+      <button class="back hidden" id="backButton" type="button">← 一つ前に戻る</button>
+    </section>
+
+    <section class="card center hidden" id="resultBox" aria-live="polite">
+      <span class="badge">診断結果</span>
+      <div class="portrait" id="portrait"><span id="portraitFallback">?</span><img class="hidden" id="resultImage" alt=""></div>
+      <p class="result-kicker">あなたの営業タイプは</p>
+      <h2 class="result-title" id="resultType"></h2>
+      <div class="tendency" id="resultTendency"></div>
+      <p class="teaser" id="resultTeaser"></p>
+      <div class="locked"><strong>LINEで詳しくわかること</strong><ul><li>この人物タイプになった理由</li><li>営業としての強みと注意点</li><li>力を発揮しやすい職場・営業環境</li><li>求人を見るときの確認ポイント</li></ul></div>
+      <p class="line-lead">あなた専用の詳細結果を受け取る</p>
+      <p class="note">ボタンを押すとLINEが開きます。表示されたメッセージを送信すると、診断結果が届きます。</p>
+      <a href="#" class="btn-line" id="lineButton">LINEで詳しい診断結果を見る</a>
+      <p class="privacy">診断結果の送付とキャリアに関するご案内のため、営業キャリアナビ公式LINEへ移動します。</p>
+    </section>
+  </main>
+
+  <script>
+    "use strict";
+
+    /* ================= 後から入力する設定欄 ================= */
+    const CONFIG = Object.freeze({
+      // ▼ここにMetaデータセットID（Pixel ID）を入力
+      META_PIXEL_ID: "ここにMetaデータセットIDを入力",
+
+      // ▼ここにLINE公式アカウントのベーシックIDを入力（@を含む）
+      LINE_BASIC_ID: "@ここにLINE公式アカウントIDを入力",
+
+      // ▼ここに診断結果を保存するWorker/GAS等のAPI URLを入力
+      TRACKING_ENDPOINT: "ここに診断データ保存APIのURLを入力",
+
+      // ▼後から作成する偉人風イラストのパス
+      RESULT_IMAGES: {
+        napoleon: "napoleon.png",
+        zhuge_liang: "zhuge-liang.png",
+        tokugawa_ieyasu: "tokugawa-ieyasu.png",
+        sakamoto_ryoma: "sakamoto-ryoma.png"
+      }
+    });
+
+    /* Meta Pixel：LeadだけはLINE follow Webhook→サーバーCAPIで送信 */
+    const metaReady = () => /^\d{8,}$/.test(CONFIG.META_PIXEL_ID);
+    function initMeta(){
+      if(!metaReady())return;
+      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");
+      fbq("init",CONFIG.META_PIXEL_ID);fbq("track","PageView");
+    }
+    function trackMeta(name,data={},standard=false){if(metaReady()&&typeof fbq==="function")fbq(standard?"track":"trackCustom",name,data)}
+    initMeta();
+
+    const F={N:"napoleon",K:"zhuge_liang",I:"tokugawa_ieyasu",R:"sakamoto_ryoma"};
+    const T={W:"work_style",H:"relationships",J:"job_content",M:"income_evaluation"};
+    const q=(text,options,tendencyWeight=1)=>({text,options,tendencyWeight});
+    const o=(text,figure=null,tendency=null)=>({text,figure,tendency});
+
+    /* Q1〜Q8は営業行動と心理質問を混在。Q9・Q10は傾向判定を強める */
+    const questions=[
+      q("営業の仕事で困ったとき、最初にすることは？",[o("まず別の方法を試してみる",F.N),o("自分で原因を整理してみる",F.K),o("上司や先輩に相談する",F.I),o("同僚がどうしているか聞いてみる",F.R)]),
+      q("残業について、最も近い考えは？",[o("できるだけ残業はしたくない",null,T.W),o("周囲と協力して負担を分けられるなら問題ない",null,T.H),o("納得できる仕事なら、忙しい時期があってもよい",null,T.J),o("残業代がきちんと出るなら問題ない",null,T.M)]),
+      q("お客様の反応があまり良くないとき、あなたに近いのは？",[o("説明や提案方法をすぐに変えてみる",F.N),o("反応が良くない原因を整理してみる",F.K),o("急がず、後日あらためて連絡する",F.I),o("上司や先輩に対応方法を聞く",F.R)]),
+      q("会社からの評価について、一番大切なのは？",[o("売上や成果に応じて収入が上がること",null,T.M),o("頑張る過程やチームへの貢献も見てもらえること",null,T.H),o("評価基準がはっきりしていること",null,T.W),o("自分の工夫や提案が認められること",null,T.J)]),
+      q("営業で褒められるとしたら、どれが一番うれしい？",[o("行動が早く、頼りになる",F.N),o("説明が分かりやすい",F.K),o("対応が丁寧で安心できる",F.I),o("お客様や周囲の話をよく聞いている",F.R)]),
+      q("上司との関係で、一番働きやすいのは？",[o("普段は自分の判断に任せてくれる",null,T.W),o("困ったときに相談に乗ってくれる",null,T.H),o("意見や提案をきちんと聞いてくれる",null,T.J),o("成果を公平に評価してくれる",null,T.M)]),
+      q("仕事を進めやすいと感じるのは、どんなとき？",[o("目標が明確で、すぐに行動へ移せるとき",F.N),o("情報を整理し、進め方を考えられるとき",F.K),o("一つずつ落ち着いて進められるとき",F.I),o("チームで相談しながら進められるとき",F.R)]),
+      q("どんな営業なら、今より前向きに取り組めそう？",[o("頑張った分だけ成果や収入につながる営業",F.N,T.M),o("工夫や提案力を活かせる営業",F.K,T.J),o("決まったお客様を担当し、無理なく長く続けられる営業",F.I,T.W),o("周囲と協力してお客様を支える営業",F.R,T.H)]),
+      q("仕事を選ぶとき、最も優先したいものは？",[o("残業や休日などの働き方",null,T.W),o("上司や同僚との人間関係",null,T.H),o("仕事内容に納得できること",null,T.J),o("収入が上がり、きちんと評価されること",null,T.M)],2),
+      q("今の仕事で、少し変わったらうれしいと思うことは？",[o("勤務時間や休日",null,T.W),o("上司や職場の雰囲気",null,T.H),o("扱う商品や営業のやり方",null,T.J),o("給料や評価",null,T.M)],2)
+    ];
+
+    const figures={
+      [F.N]:{name:"ナポレオン型セールス",short:"ナポレオン型",code:"N",teaser:"状況を見ながら素早く動き、目標へ向かって流れをつくるタイプです。ただし、強みが成果につながるかは、会社の評価方法や任される範囲によって大きく変わります。"},
+      [F.K]:{name:"諸葛孔明型セールス",short:"諸葛孔明型",code:"K",teaser:"情報を整理し、相手に合わせて提案を組み立てるタイプです。考える力を活かせる環境と、かえって窮屈になりやすい環境には、はっきりした違いがあります。"},
+      [F.I]:{name:"徳川家康型セールス",short:"徳川家康型",code:"I",teaser:"焦らず信頼を積み重ね、長い関係の中で成果を生み出すタイプです。安定して力を発揮できる一方、職場環境によっては良さが評価されにくいこともあります。"},
+      [F.R]:{name:"坂本龍馬型セールス",short:"坂本龍馬型",code:"R",teaser:"人の話を聞き、立場の異なる相手をつなぎながら前へ進めるタイプです。周囲を巻き込む力を活かせる環境と、負担だけが増えやすい環境があります。"}
+    };
+    const tendencies={
+      [T.W]:{name:"働き方重視",code:"W"},[T.H]:{name:"人間関係重視",code:"H"},
+      [T.J]:{name:"仕事内容重視",code:"J"},[T.M]:{name:"年収・評価重視",code:"M"}
+    };
+
+    const state={index:0,answers:[],id:createId(),startedAt:null,completedAt:null,result:null};
+    const $=id=>document.getElementById(id);
+    $("startButton").onclick=startQuiz;$("backButton").onclick=goBack;$("lineButton").onclick=handleLine;
+
+    function createId(){return crypto.randomUUID?crypto.randomUUID().replaceAll("-","").slice(0,12).toUpperCase():(Date.now().toString(36)+Math.random().toString(36).slice(2,8)).toUpperCase()}
+    function startQuiz(){state.startedAt=new Date().toISOString();$("startBox").classList.add("hidden");$("quizBox").classList.remove("hidden");trackMeta("DiagnosisStart",{diagnosis_id:state.id,diagnosis_version:"v1"});showQuestion()}
+    function showQuestion(){
+      const n=state.index+1,item=questions[state.index];$("questionText").textContent=`Q${n}. ${item.text}`;$("progressText").textContent=`第 ${n} 問`;$("progressCount").textContent=`${n} / ${questions.length}`;$("progressBar").style.width=`${n/questions.length*100}%`;$("progressShell").setAttribute("aria-valuenow",n);
+      $("options").replaceChildren();item.options.forEach((opt,i)=>{const b=document.createElement("button");b.className="btn";b.type="button";b.textContent=opt.text;b.onclick=()=>select(i);$("options").appendChild(b)});$("backButton").classList.toggle("hidden",state.index===0);scrollTo({top:0,behavior:"smooth"})
+    }
+    function select(i){state.answers[state.index]=i;state.index++;state.index<questions.length?showQuestion():showResult()}
+    function goBack(){if(!state.index)return;state.index--;state.answers.splice(state.index,1);showQuestion()}
+    function zero(values){return Object.fromEntries(values.map(v=>[v,0]))}
+    function picks(indexes,field){return indexes.map(i=>questions[i]?.options[state.answers[i]]?.[field]).filter(Boolean)}
+    function winner(scores,ties){const max=Math.max(...Object.values(scores)),c=Object.keys(scores).filter(k=>scores[k]===max);return c.length===1?c[0]:(ties.find(v=>c.includes(v))||c[0])}
+    function calculate(){
+      const fs=zero(Object.values(F)),ts=zero(Object.values(T));
+      questions.forEach((item,i)=>{const choice=item.options[state.answers[i]];if(choice.figure)fs[choice.figure]++;if(choice.tendency)ts[choice.tendency]+=item.tendencyWeight||1});
+      return{figure:winner(fs,picks([7,6,4,2,0],"figure")),tendency:winner(ts,picks([9,8,7,5,3,1],"tendency")),figureScores:fs,tendencyScores:ts}
+    }
+    async function showResult(){
+      state.completedAt=new Date().toISOString();state.result=calculate();const f=figures[state.result.figure],t=tendencies[state.result.tendency];
+      $("quizBox").classList.add("hidden");$("resultBox").classList.remove("hidden");$("resultType").textContent=f.name;$("resultTendency").textContent=`${t.name}の傾向があります`;$("resultTeaser").textContent=f.teaser;setImage(f);setLineUrl(f,t);
+      trackMeta("DiagnosisComplete",{diagnosis_id:state.id,diagnosis_version:"v1",historical_type:state.result.figure,priority_tendency:state.result.tendency});await save("diagnosis_complete");scrollTo({top:0,behavior:"smooth"})
+    }
+    function setImage(f){
+      const img=$("resultImage"),fallback=$("portraitFallback"),src=CONFIG.RESULT_IMAGES[state.result.figure];fallback.textContent=f.code;
+      img.onload=()=>{img.classList.remove("hidden");fallback.classList.add("hidden")};img.onerror=()=>{img.classList.add("hidden");fallback.classList.remove("hidden")};img.alt=`${f.short}をイメージしたイラスト`;img.src=src
+    }
+
+    /* LIFFは使わず、LINEトーク画面に診断ID付きメッセージを入力 */
+    const lineReady=()=>/^@[0-9a-z._-]{4,}$/i.test(CONFIG.LINE_BASIC_ID)&&!CONFIG.LINE_BASIC_ID.includes("ここに");
+    function setLineUrl(f,t){
+      if(!lineReady())return;$("lineButton").href=`https://line.me/R/oaMessage/${encodeURIComponent(CONFIG.LINE_BASIC_ID)}/?${encodeURIComponent(`診断結果を受け取る\n診断ID：${state.id}\n結果：${f.code}-${t.code}`)}`
+    }
+    async function handleLine(e){
+      if(!state.result)return;trackMeta("Contact",{diagnosis_id:state.id,historical_type:state.result.figure,priority_tendency:state.result.tendency,contact_method:"line"},true);await save("line_click");
+      if(!lineReady()){e.preventDefault();alert("LINE公式アカウントIDが未設定です。CONFIG.LINE_BASIC_IDに入力してください。")}
+    }
+
+    /* 診断データ保存。LeadはLINE follow Webhook受信後にサーバーからCAPI送信 */
+    const trackingReady=()=>{try{return new URL(CONFIG.TRACKING_ENDPOINT).protocol.startsWith("http")&&!CONFIG.TRACKING_ENDPOINT.includes("ここに")}catch{return false}};
+    function cookie(name){const x=document.cookie.split("; ").find(v=>v.startsWith(name+"="));return x?decodeURIComponent(x.split("=").slice(1).join("=")):""}
+    function attribution(){const p=new URLSearchParams(location.search);return{fbclid:p.get("fbclid")||"",fbc:cookie("_fbc"),fbp:cookie("_fbp"),utm_source:p.get("utm_source")||"",utm_medium:p.get("utm_medium")||"",utm_campaign:p.get("utm_campaign")||"",utm_content:p.get("utm_content")||"",utm_term:p.get("utm_term")||"",campaign_id:p.get("campaign_id")||"",adset_id:p.get("adset_id")||"",ad_id:p.get("ad_id")||"",placement:p.get("placement")||""}}
+    function payload(stage){return{stage,diagnosis_id:state.id,diagnosis_version:"v1",historical_type:state.result?.figure||"",priority_tendency:state.result?.tendency||"",figure_scores:state.result?.figureScores||{},tendency_scores:state.result?.tendencyScores||{},answers:[...state.answers],started_at:state.startedAt,completed_at:state.completedAt,page_url:location.href,referrer:document.referrer,user_agent:navigator.userAgent,attribution:attribution()}}
+    async function save(stage){if(!trackingReady())return;try{await fetch(CONFIG.TRACKING_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload(stage)),keepalive:stage==="line_click",credentials:"omit"})}catch(error){console.warn("診断データを送信できませんでした。",error)}}
+  </script>
+</body>
+</html>
