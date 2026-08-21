@@ -87,8 +87,10 @@
 
     /* ================= 後から入力する設定欄 ================= */
     const CONFIG = Object.freeze({
+      GA_MEASUREMENT_ID: "G-CSC430SP0M",
+
       // ▼ここにMetaデータセットID（Pixel ID）を入力
-      META_PIXEL_ID: "ここにMetaデータセットIDを入力",
+      META_PIXEL_ID: "2847625902257913",
 
       // ▼ここにLINE公式アカウントのベーシックIDを入力（@を含む）
       LINE_BASIC_ID: "@703lbwoc",
@@ -104,6 +106,15 @@
         sakamoto_ryoma: "sakamoto-ryoma.jpg"
       }
     });
+
+    /* GA4：configでpage_viewを送信し、診断操作は推奨形式の小文字イベント名で送信 */
+    function initGA(){
+      window.dataLayer=window.dataLayer||[];window.gtag=window.gtag||function(){dataLayer.push(arguments)};
+      gtag("js",new Date());gtag("config",CONFIG.GA_MEASUREMENT_ID,{send_page_view:false});gtag("event","page_view");
+      const s=document.createElement("script");s.async=true;s.src=`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(CONFIG.GA_MEASUREMENT_ID)}`;document.head.appendChild(s)
+    }
+    function trackGA(name,data={}){if(typeof gtag==="function")gtag("event",name,data)}
+    initGA();
 
     /* Meta Pixel：LeadだけはLINE follow Webhook→サーバーCAPIで送信 */
     const metaReady = () => /^\d{8,}$/.test(CONFIG.META_PIXEL_ID);
@@ -150,7 +161,7 @@
     $("startButton").onclick=startQuiz;$("backButton").onclick=goBack;$("lineButton").onclick=handleLine;
 
     function createId(){return crypto.randomUUID?crypto.randomUUID().replaceAll("-","").slice(0,12).toUpperCase():(Date.now().toString(36)+Math.random().toString(36).slice(2,8)).toUpperCase()}
-    function startQuiz(){state.startedAt=new Date().toISOString();$("startBox").classList.add("hidden");$("quizBox").classList.remove("hidden");trackMeta("DiagnosisStart",{diagnosis_id:state.id,diagnosis_version:"v1"});showQuestion()}
+    function startQuiz(){state.startedAt=new Date().toISOString();$("startBox").classList.add("hidden");$("quizBox").classList.remove("hidden");trackGA("diagnosis_start",{diagnosis_id:state.id,diagnosis_version:"v1"});trackMeta("DiagnosisStart",{diagnosis_id:state.id,diagnosis_version:"v1"});save("diagnosis_start");showQuestion()}
     function showQuestion(){
       const n=state.index+1,item=questions[state.index];$("questionText").textContent=`Q${n}. ${item.text}`;$("progressText").textContent=`第 ${n} 問`;$("progressCount").textContent=`${n} / ${questions.length}`;$("progressBar").style.width=`${n/questions.length*100}%`;$("progressShell").setAttribute("aria-valuenow",n);
       $("options").replaceChildren();item.options.forEach((opt,i)=>{const b=document.createElement("button");b.className="btn";b.type="button";b.textContent=opt.text;b.onclick=()=>select(i);$("options").appendChild(b)});$("backButton").classList.toggle("hidden",state.index===0);scrollTo({top:0,behavior:"smooth"})
@@ -168,7 +179,7 @@
     async function showResult(){
       state.completedAt=new Date().toISOString();state.result=calculate();const f=figures[state.result.figure],t=tendencies[state.result.tendency];
       $("quizBox").classList.add("hidden");$("resultBox").classList.remove("hidden");$("resultType").textContent=f.name;$("resultTendency").textContent=`${t.name}の傾向があります`;$("resultTeaser").textContent=f.teaser;setImage(f);setLineUrl(f,t);
-      trackMeta("DiagnosisComplete",{diagnosis_id:state.id,diagnosis_version:"v1",historical_type:state.result.figure,priority_tendency:state.result.tendency});await save("diagnosis_complete");scrollTo({top:0,behavior:"smooth"})
+      const eventData={diagnosis_id:state.id,diagnosis_version:"v1",historical_type:state.result.figure,priority_tendency:state.result.tendency};trackGA("diagnosis_complete",eventData);trackMeta("DiagnosisComplete",eventData);await save("diagnosis_complete");scrollTo({top:0,behavior:"smooth"})
     }
     function setImage(f){
       const img=$("resultImage"),fallback=$("portraitFallback"),src=CONFIG.RESULT_IMAGES[state.result.figure];fallback.textContent=f.code;
@@ -181,7 +192,7 @@
       if(!lineReady())return;$("lineButton").href=`https://line.me/R/oaMessage/${encodeURIComponent(CONFIG.LINE_BASIC_ID)}/?${encodeURIComponent(`診断結果を受け取る\n診断ID：${state.id}\n結果：${f.code}-${t.code}`)}`
     }
     async function handleLine(e){
-      if(!state.result)return;trackMeta("Contact",{diagnosis_id:state.id,historical_type:state.result.figure,priority_tendency:state.result.tendency,contact_method:"line"},true);await save("line_click");
+      if(!state.result)return;const eventData={diagnosis_id:state.id,historical_type:state.result.figure,priority_tendency:state.result.tendency,contact_method:"line"};trackGA("line_click",eventData);trackMeta("Contact",eventData,true);await save("line_click");
       if(!lineReady()){e.preventDefault();alert("LINE公式アカウントIDが未設定です。CONFIG.LINE_BASIC_IDに入力してください。")}
     }
 
