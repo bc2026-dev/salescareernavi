@@ -81,7 +81,7 @@
       const actionLabel=actionTexts[action]||'この求人について相談したい';
       trackGA('job_cta_click',{job_id:currentJob.job_id,job_title:currentJob.job_title,action,action_label:actionLabel,diagnosis_type:diagnosis(),prefecture:currentJob.prefecture,industry:currentJob.industry});
       saveCtaClick(action,actionLabel);
-      const message=`求人ID：${currentJob.job_id}\n相談内容：${actionLabel}\n診断ID：${diagnosisId()}`;
+      const message=`求人ID：${currentJob.job_id}\n相談内容：${actionLabel}`;
       location.href=`https://line.me/R/oaMessage/${encodeURIComponent(LINE_BASIC_ID)}/?${encodeURIComponent(message)}`;
     }
     $('close').onclick=()=>$('detail').close();['prefecture','industry'].forEach(id=>$(id).onchange=()=>{trackFilter();reload()});$('reset').onclick=()=>{['prefecture','industry'].forEach(id=>$(id).value='');document.querySelectorAll('input[name="preference"]').forEach(input=>input.checked=false);trackFilter();reload()};$('loadMore').onclick=()=>{page++;load(true)};document.querySelectorAll('.cta button').forEach(b=>b.onclick=()=>openLineConsultation(b.dataset.action));initGA();fillSelects();renderPreferenceOptions();load();
