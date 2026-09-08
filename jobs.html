@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>営業求人を探す｜営業キャリアナビ</title>
+  <meta name="description" content="エリア・業界・こだわり条件から、自分に合う営業求人を探せます。">
+  <style>
+    :root{--navy:#082c63;--blue:#1877e8;--orange:#ff6a00;--ink:#17233b;--muted:#667085;--line:#dce5f0;--bg:#f4f7fb;--white:#fff;--green:#0a9b70;--shadow:0 8px 24px rgba(19,49,91,.09)}
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;line-height:1.6}
+    button,input,select{font:inherit}.wrap{width:min(100%,760px);margin:auto;min-height:100vh;background:#fff}
+    header{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;padding:12px 16px;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);backdrop-filter:blur(8px)}
+    .mark{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:conic-gradient(#814cff,#1877e8,#10b981,#ffd23f,#ff6a00,#814cff);box-shadow:inset 0 0 0 8px #fff,0 0 0 1px #d9e4f1;font-size:18px}.brand{font-weight:800;color:var(--navy);font-size:18px}.brand small{display:block;color:var(--muted);font-size:11px;font-weight:600;line-height:1.1}
+    .intro{padding:20px 16px 14px;background:linear-gradient(145deg,#edf5ff,#fff 65%)}.eyebrow{color:var(--orange);font-size:12px;font-weight:800;letter-spacing:.08em}.intro h1{font-size:24px;line-height:1.35;margin:5px 0 6px;color:var(--navy)}.intro p{margin:0;color:var(--muted);font-size:14px}
+    label{display:block;font-size:13px;font-weight:800;color:var(--navy);margin-bottom:6px}select,input{width:100%;min-height:48px;border:1px solid #cdd9e8;border-radius:11px;background:#fff;padding:10px 12px;color:var(--ink)}
+    .search-panel{padding:16px;background:#fff;border-bottom:1px solid var(--line)}.main-filters{display:grid;grid-template-columns:1fr;gap:11px}.preferences{margin:0;padding:0;border:0}.preferences legend{font-size:13px;font-weight:800;color:var(--navy);margin-bottom:6px}.check-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}.check-option{display:flex;align-items:center;gap:7px;min-height:43px;padding:7px 9px;border:1px solid #cdd9e8;border-radius:10px;background:#fff;color:var(--ink);font-size:13px;font-weight:650;cursor:pointer}.check-option:has(input:checked){border-color:var(--blue);background:#eef6ff;color:var(--navy)}.check-option input{width:18px;height:18px;min-height:auto;margin:0;accent-color:var(--blue)}.reset{display:block;margin:8px auto 0;border:0;background:transparent;color:var(--blue);font-weight:700;cursor:pointer;padding:6px 12px}
+    .result-head{display:flex;align-items:end;justify-content:space-between;padding:16px 16px 8px}.result-head h2{font-size:18px;margin:0;color:var(--navy)}#count{font-size:13px;color:var(--muted)}
+    .jobs{display:grid;gap:12px;padding:0 12px 24px}.card{border:1px solid var(--line);border-radius:15px;padding:16px;background:#fff;box-shadow:var(--shadow)}.score{display:inline-flex;align-items:center;background:#fff0e5;color:#d84f00;border-radius:999px;padding:3px 9px;font-size:12px;font-weight:800}.card h3{margin:8px 0 5px;font-size:18px;line-height:1.45;color:#101d35}.summary{margin:0 0 10px;color:#536176;font-size:14px}.facts{display:grid;gap:3px;font-size:14px;margin-bottom:10px}.facts b{color:var(--navy)}.tags{display:flex;flex-wrap:wrap;gap:5px;margin:9px 0 13px}.tag{font-size:12px;border:1px solid #cbd9eb;background:#f7faff;border-radius:6px;padding:2px 7px}.view{width:100%;border:0;border-radius:10px;background:var(--navy);color:#fff;font-weight:800;min-height:47px;cursor:pointer}.view:active,.primary:active,.filter-toggle:active{transform:translateY(1px)}
+    .state{text-align:center;color:var(--muted);padding:40px 20px}.loadmore{display:none;width:calc(100% - 32px);margin:0 16px 28px;min-height:48px;border:1px solid var(--navy);border-radius:11px;background:#fff;color:var(--navy);font-weight:800;cursor:pointer}
+    dialog{width:min(100%,760px);height:100dvh;max-height:100dvh;margin:0 auto;border:0;padding:0;background:#fff;overflow:hidden;display:none;flex-direction:column}dialog[open]{display:flex}dialog::backdrop{background:rgba(7,22,47,.48)}.detail-head{flex:none;z-index:5;display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line);background:#fff}.back{border:0;background:#eef4fb;color:var(--navy);width:42px;height:42px;border-radius:50%;font-size:22px;cursor:pointer}.detail-title{font-weight:800;color:var(--navy)}.detail-body{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:20px 17px 26px}.detail-body h1{font-size:23px;line-height:1.45;color:var(--navy);margin:8px 0 16px}.detail-body h2{font-size:18px;color:var(--navy);margin:25px 0 8px;border-left:4px solid var(--orange);padding-left:9px}.detail-body p{white-space:pre-wrap}.detail-grid{display:grid;grid-template-columns:110px 1fr;border:1px solid var(--line);border-radius:12px;overflow:hidden}.detail-grid div{padding:9px 10px;border-bottom:1px solid var(--line)}.detail-grid div:nth-last-child(-n+2){border-bottom:0}.detail-grid .key{background:#f5f8fc;font-weight:700;color:#526075}.cta{position:static;flex:none;width:100%;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid var(--line);display:grid;gap:7px}.cta button{min-height:48px;border-radius:10px;font-weight:800;cursor:pointer}.cta-main{border:0;background:var(--orange);color:#fff}.cta-sub{border:1px solid var(--navy);background:#fff;color:var(--navy)}.notice{position:fixed;z-index:50;left:50%;bottom:20px;transform:translateX(-50%) translateY(120px);background:#17233b;color:#fff;border-radius:10px;padding:12px 18px;transition:.25s;white-space:nowrap}.notice.show{transform:translateX(-50%) translateY(0)}
+    @media(min-width:700px){body{padding:24px}.wrap{border-radius:18px;overflow:hidden;box-shadow:0 18px 60px rgba(10,40,80,.14)}.main-filters{grid-template-columns:1fr 1fr}.preferences{grid-column:1/-1}.check-grid{grid-template-columns:repeat(4,1fr)}.jobs{grid-template-columns:1fr 1fr;padding:0 16px 28px}.card{display:flex;flex-direction:column}.view{margin-top:auto}dialog{height:calc(100dvh - 48px);max-height:900px;margin:24px auto;border-radius:18px}.cta{border-radius:0 0 18px 18px}}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header><div class="brand">営業キャリアナビ<small>営業スタイル診断</small></div></header>
+    <section class="intro"><div class="eyebrow">営業職に特化</div><h1>あなたの診断結果に合う<br>営業求人を優先表示しています</h1><p>全国11万件の求人の中から人気の求人5,418件を掲載中！その他を見たい場合はご相談ください</p></section>
+    <section class="search-panel">
+      <div class="main-filters">
+        <div><label for="prefecture">エリア（都道府県）</label><select id="prefecture"><option value="">すべてのエリア</option></select></div>
+        <div><label for="industry">業界</label><select id="industry"><option value="">すべての業界</option></select></div>
+        <fieldset class="preferences"><legend>こだわり条件（複数選択可）</legend><div class="check-grid" id="preferenceOptions"></div></fieldset>
+      </div>
+      <button class="reset" id="reset">条件をリセット</button>
+    </section>
+    <div class="result-head"><h2>求人一覧</h2><span id="count"></span></div>
+    <section class="jobs" id="jobs"><div class="state">求人を読み込んでいます...</div></section>
+    <button class="loadmore" id="loadMore">次の求人を表示</button>
+  </main>
+
+  <dialog id="detail"><div class="detail-head"><button class="back" id="close" aria-label="求人一覧へ戻る">‹</button><div class="detail-title">求人詳細</div></div><div class="detail-body" id="detailBody"></div><div class="cta"><button class="cta-main" data-action="selection">この求人の選考について相談したい</button><button class="cta-sub" data-action="detail">この求人の詳細を聞きたい</button><button class="cta-sub" data-action="similar">似た求人も紹介してほしい</button></div></dialog>
+  <script>
+    const API='https://career-navi-jobs-api-dev.sales-a60.workers.dev';
+    const LINE_BASIC_ID='@703lbwoc';
+    const GA_MEASUREMENT_ID='G-CSC430SP0M';
+    const TRACKING_ENDPOINT='https://sales-career-navi-line-bridge.sales-a60.workers.dev/track';
+    const $=id=>document.getElementById(id); let currentJob=null,page=1,requestNo=0;
+    const labels={corporate:'法人',individual:'個人',both:'法人・個人',new:'新規',existing:'既存',partial:'一部リモート',full:'フルリモート',none:'リモートなし'};
+    const prefectures=['北海道','青森県','岩手県','宮城県','秋田県','山形県','福島県','茨城県','栃木県','群馬県','埼玉県','千葉県','東京都','神奈川県','新潟県','富山県','石川県','福井県','山梨県','長野県','岐阜県','静岡県','愛知県','三重県','滋賀県','京都府','大阪府','兵庫県','奈良県','和歌山県','鳥取県','島根県','岡山県','広島県','山口県','徳島県','香川県','愛媛県','高知県','福岡県','佐賀県','長崎県','熊本県','大分県','宮崎県','鹿児島県','沖縄県'];
+    const industries=['IT・SaaS','人材','不動産','広告・Web','メーカー・機械','商社','建設・設備','金融・保険','医療・ヘルスケア','介護・福祉','物流・運輸','小売・流通','食品・飲料','化学・素材','自動車・モビリティ','教育','旅行・ホテル','エネルギー','コンサルティング','通信','エンタメ・メディア','環境・リサイクル'];
+    // こだわり条件を増減・名称変更するときは、まずこの一覧を編集します。
+    const preferenceOptions=[
+      {value:'remote',label:'リモート可'},
+      {value:'beginner',label:'未経験可'},
+      {value:'holidays',label:'年間休日120日以上'},
+      {value:'low-overtime',label:'残業少なめ'},
+      {value:'salary500',label:'年収500万円以上'},
+      {value:'corporate',label:'法人営業'},
+      {value:'individual',label:'個人営業'},
+      {value:'new',label:'新規営業'},
+      {value:'existing',label:'既存営業'}
+    ];
+    const esc=v=>String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+    function initGA(){window.dataLayer=window.dataLayer||[];window.gtag=window.gtag||function(){dataLayer.push(arguments)};gtag('js',new Date());gtag('config',GA_MEASUREMENT_ID,{send_page_view:false});gtag('event','page_view',{page_type:'jobs',page_location:location.origin+location.pathname});const script=document.createElement('script');script.async=true;script.src=`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(GA_MEASUREMENT_ID)}`;document.head.appendChild(script)}
+    function trackGA(name,data={}){if(typeof gtag==='function')gtag('event',name,{...data,page_type:'jobs',transport_type:'beacon'})}
+    function diagnosis(){const value=new URLSearchParams(location.search).get('diagnosis_type');return ['ナポレオン型セールス','諸葛孔明型セールス','徳川家康型セールス','坂本龍馬型セールス'].includes(value)?value:''}
+    function diagnosisId(){const value=String(new URLSearchParams(location.search).get('diagnosis_id')||'').toUpperCase();return /^[A-Z0-9]{8,32}$/.test(value)?value:''}
+    function preferenceMatch(j,value){if(!value)return true;if(value==='remote')return j.remote_type==='partial'||j.remote_type==='full';if(value==='beginner')return Number(j.inexperienced_ok)===1;if(value==='holidays')return Number(j.annual_holidays)>=120;if(value==='low-overtime')return /なし|少な|10時間以内/.test(j.overtime||'');if(value==='salary500')return Number(j.salary_max)>=500;if(value==='corporate')return j.sales_target==='corporate'||j.sales_target==='both';if(value==='individual')return j.sales_target==='individual'||j.sales_target==='both';if(value==='new')return j.sales_style==='new'||j.sales_style==='both';if(value==='existing')return j.sales_style==='existing'||j.sales_style==='both';return true}
+    function fillSelects(){$('prefecture').insertAdjacentHTML('beforeend',prefectures.map(v=>`<option>${v}</option>`).join(''));$('industry').insertAdjacentHTML('beforeend',industries.map(v=>`<option>${v}</option>`).join(''))}
+    function renderPreferenceOptions(){$('preferenceOptions').innerHTML=preferenceOptions.map(option=>`<label class="check-option"><input type="checkbox" name="preference" value="${option.value}">${option.label}</label>`).join('');document.querySelectorAll('input[name="preference"]').forEach(input=>input.onchange=()=>{trackFilter();reload()})}
+    function params(){const p=new URLSearchParams({page:String(page),limit:'20'});const d=diagnosis(),pref=$('prefecture').value,industry=$('industry').value,conditions=[...document.querySelectorAll('input[name="preference"]:checked')].map(input=>input.value);if(d)p.set('diagnosis_type',d);if(pref)p.set('prefecture',pref);if(industry)p.set('industry',industry);if(conditions.length)p.set('conditions',conditions.join(','));return p}
+    async function load(append=false){const current=++requestNo;if(!append)$('jobs').innerHTML='<div class="state">求人を読み込んでいます...</div>';else{$('loadMore').disabled=true;$('loadMore').textContent='読み込み中...'}try{const r=await fetch(`${API}/api/jobs?${params()}`);if(!r.ok)throw Error();const data=await r.json();if(current!==requestNo)return;render(data,append)}catch{if(current!==requestNo)return;$('jobs').innerHTML='<div class="state">求人を取得できませんでした。時間を置いて再読み込みしてください。</div>';$('count').textContent='';$('loadMore').style.display='none'}finally{$('loadMore').disabled=false;$('loadMore').textContent='次の求人を表示'}}
+    function render(data,append){$('count').textContent=`該当 ${Number(data.pagination.total).toLocaleString()}件`;const html=data.jobs.map(j=>`<article class="card">${j.match_score?`<span class="score">あなたへのおすすめ度 ${j.match_score}</span>`:''}<h3>${esc(j.job_title)}</h3><p class="summary">${esc(j.job_summary)}</p><div class="facts"><div>💰 <b>年収 ${j.salary_min}～${j.salary_max}万円</b></div><div>📍 ${esc(j.prefecture)}</div><div>🏢 ${esc(j.industry)}</div><div>💼 ${labels[j.sales_target]}／${labels[j.sales_style]}営業</div></div><div class="tags">${j.tags.slice(0,4).map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div><button class="view" data-id="${j.job_id}">この求人を見る</button></article>`).join('');if(append)$('jobs').insertAdjacentHTML('beforeend',html);else $('jobs').innerHTML=html||'<div class="state">条件に合う求人がありませんでした。条件を変えてお試しください。</div>';$('loadMore').style.display=data.pagination.page<data.pagination.total_pages?'block':'none';document.querySelectorAll('.view').forEach(b=>b.onclick=()=>openDetail(b.dataset.id))}
+    async function openDetail(id){$('detailBody').innerHTML='<div class="state">求人詳細を読み込んでいます...</div>';$('detail').showModal();try{const r=await fetch(`${API}/api/jobs/${encodeURIComponent(id)}`);if(!r.ok)throw Error();const {job:j}=await r.json();currentJob=j;trackGA('job_view',{job_id:j.job_id,job_title:j.job_title,diagnosis_type:diagnosis(),prefecture:j.prefecture,industry:j.industry});$('detailBody').innerHTML=`<span class="score">営業キャリアナビ厳選求人</span><h1>${esc(j.job_title)}</h1><div class="tags">${j.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div><div class="detail-grid"><div class="key">年収</div><div>${j.salary_min}～${j.salary_max}万円</div><div class="key">勤務地</div><div>${esc(j.prefecture)}</div><div class="key">業界</div><div>${esc(j.industry)}</div><div class="key">営業分類</div><div>${labels[j.sales_target]}／${labels[j.sales_style]}営業</div><div class="key">リモート</div><div>${labels[j.remote_type]}</div><div class="key">年間休日</div><div>${j.annual_holidays||'―'}日</div><div class="key">残業</div><div>${esc(j.overtime||'―')}</div></div><h2>求人概要</h2><p>${esc(j.job_summary)}</p><h2>仕事内容</h2><p>${esc(j.job_description)}</p><h2>応募条件</h2><p>${esc(j.requirements||'詳細はお問い合わせください。')}</p>`}catch{$('detailBody').innerHTML='<div class="state">求人詳細を取得できませんでした。</div>'}}
+    function reload(){page=1;load(false)}
+    function trackFilter(){trackGA('job_filter',{diagnosis_type:diagnosis(),prefecture:$('prefecture').value||'(all)',industry:$('industry').value||'(all)',conditions:[...document.querySelectorAll('input[name="preference"]:checked')].map(input=>input.value).join(',')||'(none)'})}
+    function saveCtaClick(action,actionLabel){const data={stage:'job_cta_click',clicked_at:new Date().toISOString(),diagnosis_id:diagnosisId(),diagnosis_type:diagnosis(),job_id:currentJob.job_id,job_title:currentJob.job_title,action,action_label:actionLabel,prefecture:currentJob.prefecture,industry:currentJob.industry,page_url:location.href,referrer:document.referrer,user_agent:navigator.userAgent};const body=JSON.stringify(data);try{if(navigator.sendBeacon&&navigator.sendBeacon(TRACKING_ENDPOINT,new Blob([body],{type:'text/plain;charset=UTF-8'})))return}catch{}fetch(TRACKING_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body,keepalive:true,credentials:'omit'}).catch(()=>{})}
+    function openLineConsultation(action){
+      if(!currentJob)return;
+      const actionTexts={selection:'この求人の選考について相談したい',detail:'この求人の詳細を聞きたい',similar:'似た求人も紹介してほしい'};
+      const actionLabel=actionTexts[action]||'この求人について相談したい';
+      trackGA('job_cta_click',{job_id:currentJob.job_id,job_title:currentJob.job_title,action,action_label:actionLabel,diagnosis_type:diagnosis(),prefecture:currentJob.prefecture,industry:currentJob.industry});
+      saveCtaClick(action,actionLabel);
+      const message=`求人ID：${currentJob.job_id}\n相談内容：${actionLabel}\n診断ID：${diagnosisId()}`;
+      location.href=`https://line.me/R/oaMessage/${encodeURIComponent(LINE_BASIC_ID)}/?${encodeURIComponent(message)}`;
+    }
+    $('close').onclick=()=>$('detail').close();['prefecture','industry'].forEach(id=>$(id).onchange=()=>{trackFilter();reload()});$('reset').onclick=()=>{['prefecture','industry'].forEach(id=>$(id).value='');document.querySelectorAll('input[name="preference"]').forEach(input=>input.checked=false);trackFilter();reload()};$('loadMore').onclick=()=>{page++;load(true)};document.querySelectorAll('.cta button').forEach(b=>b.onclick=()=>openLineConsultation(b.dataset.action));initGA();fillSelects();renderPreferenceOptions();load();
+  </script>
+</body>
+</html>
