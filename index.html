@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="10問でわかる営業タイプ診断。あなたの強みと、働くうえで重視していることを診断します。">
+  <meta name="description" content="10問でわかる営業タイプ診断。あなたの強みと、働くうえで重視していることを診断し、結果をもとにあなたに合う求人をご提案します。">
   <title>営業タイプ診断｜営業キャリアナビ</title>
   <!--
     設定項目は下部JavaScriptのCONFIGに集約しています。
@@ -47,8 +47,8 @@
     <section class="card center" id="startBox">
       <span class="badge">所要時間：約60秒・全10問</span>
       <h1>営業タイプ診断</h1>
-      <p class="desc">いつもの仕事の進め方や、働くうえで大切にしたいことから、あなたの営業タイプを歴史上の人物に例えて診断します。</p>
-      <div class="features"><div class="feature">登録不要で開始</div><div class="feature">直感で選択</div><div class="feature">結果は全16通り</div></div>
+      <p class="desc">いつもの仕事の進め方や、働くうえで大切にしたいことから、あなたの営業タイプを歴史上の人物に例えて診断します。診断結果をもとに、あなたの強みを活かせる営業求人をご提案します。</p>
+      <div class="features"><div class="feature">登録不要で開始</div><div class="feature">直感で選択</div><div class="feature">最適な求人も確認</div></div>
       <button class="btn btn-main" id="startButton" type="button">無料で診断する</button>
     </section>
 
@@ -67,11 +67,11 @@
       <h2 class="result-title" id="resultType"></h2>
       <div class="tendency" id="resultTendency"></div>
       <p class="teaser" id="resultTeaser"></p>
-      <div class="locked"><strong>LINEで詳しくわかること</strong><ul><li>この人物タイプになった理由</li><li>営業としての強みと注意点</li><li>力を発揮しやすい職場・営業環境</li><li>求人を見るときの確認ポイント</li></ul></div>
-      <p class="line-lead">あなた専用の詳細結果を受け取る</p>
-      <p class="note">ボタンを押すとLINEが開きます。表示されたメッセージを送信すると、診断結果が届きます。</p>
-      <a href="#" class="btn-line" id="lineButton">LINEで詳しい診断結果を見る</a>
-      <p class="privacy">診断結果の送付とキャリアに関するご案内のため、営業キャリアナビ公式LINEへ移動します。情報の取扱いは<a href="privacy.html" target="_blank" rel="noopener">こちら</a>をご確認ください。</p>
+      <div class="locked"><strong>LINEで受け取れる内容</strong><ul><li>この人物タイプになった理由</li><li>営業としての強みと注意点</li><li>力を発揮しやすい職場・営業環境</li><li>求人を見るときの確認ポイント</li><li>診断結果をもとにした、あなたに合う求人提案</li></ul></div>
+      <p class="line-lead">詳しい診断結果と求人を受け取る</p>
+      <p class="note">ボタンを押すとLINEが開きます。表示されたメッセージを送信すると、詳しい診断結果とあなたに合う求人提案が届きます。</p>
+      <a href="#" class="btn-line" id="lineButton">LINEで詳しい診断結果と求人を見る</a>
+      <p class="privacy">診断結果の送付、求人提案およびキャリアに関するご案内のため、営業キャリアナビ公式LINEへ移動します。情報の取扱いは<a href="privacy.html" target="_blank" rel="noopener">こちら</a>をご確認ください。</p>
     </section>
   </main>
 
@@ -189,7 +189,7 @@
     /* LIFFは使わず、LINEトーク画面に診断ID付きメッセージを入力 */
     const lineReady=()=>/^@[0-9a-z._-]{4,}$/i.test(CONFIG.LINE_BASIC_ID)&&!CONFIG.LINE_BASIC_ID.includes("ここに");
     function setLineUrl(f,t){
-      if(!lineReady())return;$("lineButton").href=`https://line.me/R/oaMessage/${encodeURIComponent(CONFIG.LINE_BASIC_ID)}/?${encodeURIComponent(`診断結果を受け取る\n診断ID：${state.id}\n結果：${f.code}-${t.code}`)}`
+      if(!lineReady())return;$("lineButton").href=`https://line.me/R/oaMessage/${encodeURIComponent(CONFIG.LINE_BASIC_ID)}/?${encodeURIComponent(`診断結果と求人提案を受け取る\n診断ID：${state.id}\n結果：${f.code}-${t.code}`)}`
     }
     async function handleLine(e){
       if(!state.result)return;const eventData={diagnosis_id:state.id,historical_type:state.result.figure,priority_tendency:state.result.tendency,contact_method:"line"};trackGA("line_click",eventData);trackMeta("Contact",eventData,true);await save("line_click");
